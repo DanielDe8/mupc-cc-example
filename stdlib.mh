@@ -1,0 +1,83 @@
+#ifndef __STDLIB_MH
+#define __STDLIB_MH
+
+#define BUFF_SIZE (64)
+
+#define putch(ch) _putchar((ch))
+#define newline() _putchar('\n');
+#define print_int(x) int_to_str((x), __stdlib_mh_temp_int_str); print(__stdlib_mh_temp_int_str)
+#define println_int(x) int_to_str((x), __stdlib_mh_temp_int_str); println(__stdlib_mh_temp_int_str)
+#define print_uint(x) uint_to_str((x), __stdlib_mh_temp_int_str); print(__stdlib_mh_temp_int_str)
+#define println_uint(x) uint_to_str((x), __stdlib_mh_temp_int_str); println(__stdlib_mh_temp_int_str)
+#define readln(x) readln_size((x), BUFF_SIZE)
+
+char __stdlib_mh_temp_int_str[5];
+
+void print(char* str) {
+    while(*str) {
+        _putchar(*str++);
+    }
+}
+void println(char* str) {
+    print(str);
+    newline();
+}
+
+char getch() {
+    char ch = 0;
+    _sub_inst("in", &ch);
+    return ch;
+}
+void readln_size(char *buff, uint size) {
+    int i = 0;
+    char ch;
+
+    while (i < size) {
+        ch = getch();
+        if (ch == '\n' || ch == 0) { 
+            break;
+        }
+
+        buff[i++] = ch;
+    }
+
+    buff[i] = 0;
+}
+
+void int_to_str(int x, char *str) {
+    int i = 0;
+    int started = 0;
+
+    if (x < 0)
+        str[i++] = '-';
+
+    uint n = x < 0 ? -x : x;
+
+    for (int divisor = 100; divisor > 0; divisor /= 10) {
+        int digit = (n / divisor) % 10;
+
+        if (digit != 0 || started || divisor == 1) {
+            str[i++] = '0' + digit;
+            started = 1;
+        }
+    }
+
+    str[i] = '\0';
+}
+void uint_to_str(uint x, char *str) {
+    int i = 0;
+    int started = 0;
+
+    for (int divisor = 100; divisor >= 1; divisor /= 10) {
+        int digit = (x / divisor) % 10;
+
+        if (digit != 0 || started || divisor == 1) {
+            str[i++] = '0' + digit;
+            started = 1;
+        }
+    }
+
+    str[i] = 0;
+}
+
+#endif
