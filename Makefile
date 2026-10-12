@@ -6,7 +6,9 @@ EMU=mupc-emu
 OUT_DIR=out
 OUT=program.bin
 
-all: clean $(OUT_DIR) $(OUT_DIR)/$(OUT)
+all: clean build
+
+build: $(OUT_DIR) $(OUT_DIR)/$(OUT)
 
 $(OUT_DIR)/%.bin: %.mc
 	$(CC) $< -o $@
