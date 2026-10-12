@@ -9,7 +9,7 @@
 #define println_int(x) int_to_str((x), __stdlib_mh_temp_int_str); println(__stdlib_mh_temp_int_str)
 #define print_uint(x) uint_to_str((x), __stdlib_mh_temp_int_str); print(__stdlib_mh_temp_int_str)
 #define println_uint(x) uint_to_str((x), __stdlib_mh_temp_int_str); println(__stdlib_mh_temp_int_str)
-#define readln(x) readln_size((x), BUFF_SIZE)
+#define readln(str) readln_size((str), BUFF_SIZE)
 
 char __stdlib_mh_temp_int_str[5];
 
@@ -34,11 +34,17 @@ void readln_size(char *buff, uint size) {
 
     while (i < size) {
         ch = getch();
-        if (ch == '\n' || ch == 0) { 
-            break;
-        }
+        putch(ch);
+        if (ch == '\b' || ch == 127) {
+            print("\b \b");
+            i--;
+        } else {
+            if (ch == '\n' || ch == 0) { 
+                break;
+            }
 
-        buff[i++] = ch;
+            buff[i++] = ch;
+        }
     }
 
     buff[i] = 0;
